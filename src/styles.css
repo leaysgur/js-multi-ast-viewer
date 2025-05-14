@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+#app {
+  @apply h-screen font-mono;
+}
+
+textarea, select, input {
+  @apply bg-gray-200;
+}
