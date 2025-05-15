@@ -1,5 +1,5 @@
 import type { ParserOptions } from "oxc-parser";
-import type { Parse } from "./types";
+import type { Parse } from "./index";
 
 export const key = "oxc-parser";
 

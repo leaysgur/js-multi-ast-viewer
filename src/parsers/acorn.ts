@@ -1,5 +1,5 @@
 import type { Options, Comment } from "acorn";
-import type { Parse } from "./types";
+import type { Parse } from "./index";
 
 export const key = "acorn(+jsx)";
 

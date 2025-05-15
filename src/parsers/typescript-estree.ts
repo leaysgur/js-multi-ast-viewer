@@ -1,6 +1,6 @@
 import type { ts } from "@ts-morph/bootstrap";
 import type { ParseSettings } from "@typescript-eslint/typescript-estree/use-at-your-own-risk";
-import type { Parse } from "./types";
+import type { Parse } from "./index";
 
 export const key = "typescript-estree";
 

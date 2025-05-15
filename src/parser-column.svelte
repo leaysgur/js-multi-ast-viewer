@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getParser } from "./parsers";
+  import { getParserImpl } from "./parsers";
 
   let {
     id,
@@ -19,7 +19,7 @@
 
   // NOTE: Break reactivity to use as default value
   const keySnapshot = $state.snapshot(key);
-  const { parse, defaultOptions, notes } = getParser(keySnapshot);
+  const { parse, defaultOptions, notes } = getParserImpl(keySnapshot);
 
   let options = $state(JSON.stringify(defaultOptions(), null, 2));
   let resultsPromise = $derived.by(() => {

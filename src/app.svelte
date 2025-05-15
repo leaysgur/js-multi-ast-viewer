@@ -6,7 +6,7 @@
   let id = 0;
 
   let parsers = $state<{ id: number; key: string }[]>([]);
-  let selected = $state(parserKeys[0]);
+  let selected = $state<string>(parserKeys[0]);
   const addParser = () =>
     parsers.push({
       id: id++,
