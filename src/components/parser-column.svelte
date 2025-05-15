@@ -27,11 +27,27 @@
 </script>
 
 <div
-  class="h-full grid gap-2 content-start grid-rows-[max-content_max-content_max-content_max-content_max-content_minmax(0,_1fr)] overflow-hidden"
+  popover
+  id={key}
+  class="w-1/2 mx-auto mt-16 p-8 open:grid open:gap-4 backdrop:backdrop-blur-xs"
+>
+  <h3 class="text-lg font-bold">Notes about `{key}`</h3>
+  <ul class="list-disc list-inside">
+    {#each notes as note}
+      <li>{note}</li>
+    {/each}
+  </ul>
+</div>
+
+<div
+  class="h-full grid gap-2 content-start grid-rows-[max-content_max-content_max-content_max-content_minmax(0,_1fr)] overflow-hidden"
 >
   <!-- 1. Header -->
-  <div class="flex justify-between">
-    <h2 class="text-lg font-bold">{key}</h2>
+  <div class="flex justify-between items-center">
+    <div class="flex gap-2">
+      <h2 class="text-lg font-bold">{key}</h2>
+      <button class="cursor-pointer" popovertarget={key}>(?)</button>
+    </div>
     <div>
       <button
         {...swap[0] === null ? { disabled: true } : { onclick: swap[0] }}
@@ -46,19 +62,14 @@
       >
     </div>
   </div>
-  <!-- 2. Notes -->
-  <details>
-    <summary>Notes</summary>
-    <pre class="whitespace-pre-wrap">{notes}</pre>
-  </details>
-  <!-- 3. Options -->
+  <!-- 2. Options -->
   <details open>
     <summary>Options</summary>
     <textarea bind:value={options} class="w-full p-1 bg-white resize-none" rows={8}></textarea>
   </details>
-  <!-- 4. Errors -->
-  <!-- 5. Comments -->
-  <!-- 6. Program(scrollable) -->
+  <!-- 3. Errors -->
+  <!-- 4. Comments -->
+  <!-- 5. Program(scrollable) -->
   {#await resultsPromise}
     <p>...</p>
   {:then { errors, comments, program }}

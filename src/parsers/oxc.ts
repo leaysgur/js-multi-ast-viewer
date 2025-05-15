@@ -4,11 +4,10 @@ import type { Parse } from "./index";
 
 export const key = `oxc-parser@${pkg["dependencies"]["oxc-parser"]}`;
 
-export const notes = `
-- \`experimentalRawTransfer\` options is not supported for WASM yet
-- \`oxc-parser\` returns \`errors\` and never throws exceptions, but it is NOT a recoverable parser
-  - In some cases, it may return an empty \`Program\`
-`.trim();
+export const notes = [
+  "`experimentalRawTransfer` option is not supported for WASM yet",
+  "`oxc-parser` returns `errors` and never throws exceptions, but it may return an empty `Program` in some cases",
+];
 
 export const defaultOptions: () => Partial<ParserOptions> = () => ({
   sourceType: "module",

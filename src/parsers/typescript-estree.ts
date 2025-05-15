@@ -5,12 +5,11 @@ import type { Parse } from "./index";
 
 export const key = `typescript-estree@${pkg["dependencies"]["@typescript-eslint/typescript-estree"]}`;
 
-export const notes = `
-- This is emulating the behavior of \`@typescript-eslint/typescript-estree\`, may not be accurate
-  - Using \`@ts-morph/bootstrap@${pkg["dependencies"]["@ts-morph/bootstrap"]}\` to parse TypeScript code
-- \`errorOnTypeScriptSyntacticAndSemanticIssues\` option only reports whitelisted errors
-- \`errors\` is always empty
-`.trim();
+export const notes = [
+  "This is emulating the behavior of `@typescript-eslint/typescript-estree`, results may not be accurate",
+  `Using \`@ts-morph/bootstrap@${pkg["dependencies"]["@ts-morph/bootstrap"]}\` to parse TypeScript code`,
+  "`errorOnTypeScriptSyntacticAndSemanticIssues` option only reports whitelisted errors, not all errors",
+];
 
 export const defaultOptions: () => Partial<ParseSettings> = () => ({
   jsx: true,
