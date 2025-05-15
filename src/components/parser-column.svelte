@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getParserImpl } from "./parsers";
+  import { getParserImpl } from "../parsers";
 
   let {
     id,
@@ -7,14 +7,14 @@
     code,
     swapRight,
     swapLeft,
-    removeParser,
+    remove,
   }: {
     id: number;
     key: string;
     code: string;
     swapRight: null | (() => void);
     swapLeft: null | (() => void);
-    removeParser: () => void;
+    remove: () => void;
   } = $props();
 
   // NOTE: Break reactivity to use as default value
@@ -43,7 +43,7 @@
         {...swapRight === null ? { disabled: true } : { onclick: swapRight }}
         class="py-0 px-1 cursor-pointer">SwapRight</button
       >
-      <button onclick={removeParser} class="py-0 px-1 cursor-pointer text-white bg-orange-400"
+      <button onclick={remove} class="py-0 px-1 cursor-pointer text-white bg-orange-400"
         >Remove</button
       >
     </div>

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { flip } from "svelte/animate";
   import { parserKeys } from "./parsers";
-  import ParserColumn from "./parser-column.svelte";
+  import ParserColumn from "./components/parser-column.svelte";
 
   let id = 0;
 
@@ -59,7 +59,7 @@ const ast = ({x});
             {code}
             swapLeft={idx === 0 ? null : () => swapParser(idx, idx - 1)}
             swapRight={idx === parsers.length - 1 ? null : () => swapParser(idx, idx + 1)}
-            removeParser={() => removeParser(idx)}
+            remove={() => removeParser(idx)}
           />
         </li>
       {/each}
