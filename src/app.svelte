@@ -3,14 +3,15 @@
   import { parserKeys } from "./parsers";
   import ParserColumn from "./components/parser-column.svelte";
 
-  let id = 0;
-
+  // Parsers to compare
   let parsers = $state<{ id: number; key: string }[]>([]);
-  let selected = $state<string>(parserKeys[0]);
+  // Temporary selected parser key
+  let selectedDraft = $state<string>(parserKeys[0]);
+  let id = 0;
   const addParser = () =>
     parsers.push({
       id: id++,
-      key: $state.snapshot(selected),
+      key: $state.snapshot(selectedDraft),
     });
   const removeParser = (idx: number) => parsers.splice(idx, 1);
   const swapParser = (from: number, to: number) =>
@@ -18,31 +19,33 @@
       idx === from ? parsers[to] : idx === to ? parsers[from] : parsers[idx],
     ));
 
-  let code = $state(
-    `
-// Hello
-const ast = ({x});
-`.trim(),
-  );
+  // Code string to be parsed
+  let code = $state("");
+  // Code string as draft, it will update `code` later
+  let codeDraft = $state("");
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  $effect(() => {
+    if (timer) clearTimeout(timer);
+    const v = $state.snapshot(codeDraft);
+    timer = setTimeout(() => (code = v), 320);
+  });
 
   // DEBUG
   addParser();
-  selected = parserKeys[1];
-  addParser();
-  selected = parserKeys[2];
+  selectedDraft = parserKeys[1];
   addParser();
 </script>
 
 <main class="h-full grid gap-x-4 grid-cols-[20%_minmax(0,_1fr)]">
   <!-- Left column -->
   <section class="h-full grid overflow-y-auto">
-    <textarea bind:value={code} class="h-full p-1 bg-white resize-none"></textarea>
+    <textarea bind:value={codeDraft} class="h-full p-1 bg-white resize-none"></textarea>
   </section>
   <!-- Right column -->
   <section class="h-full grid gap-y-2 grid-rows-[max-content_minmax(0,_1fr)] overflow-y-hidden">
     <div class="flex justify-between items-center py-2">
       <div class="flex">
-        <select bind:value={selected} class="h-full py-2 px-2 bg-white">
+        <select bind:value={selectedDraft} class="h-full py-2 px-2 bg-white">
           {#each parserKeys as key}
             <option value={key}>{key}</option>
           {/each}
