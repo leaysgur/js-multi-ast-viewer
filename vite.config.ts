@@ -5,6 +5,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
   plugins: [tailwindcss(), svelte()],
 
+  // For GitHub Pages
+  base: "/js-multi-ast-viewer/",
+
   // All for `oxc-parser`(napi-rs)
   build: {
     target: "esnext",
