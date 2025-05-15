@@ -1,7 +1,8 @@
+import pkg from "../../package.json";
 import type { ParserOptions } from "oxc-parser";
 import type { Parse } from "./index";
 
-export const key = "oxc-parser";
+export const key = `oxc-parser@${pkg["dependencies"]["oxc-parser"]}`;
 
 export const notes = `
 - \`experimentalRawTransfer\` options is not supported for WASM yet

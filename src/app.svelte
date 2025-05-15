@@ -33,20 +33,28 @@ const ast = ({x});
   addParser();
 </script>
 
-<main class="h-full grid gap-x-4 grid-cols-[300px_minmax(0,_1fr)]">
+<main class="h-full grid gap-x-4 grid-cols-[20%_minmax(0,_1fr)]">
+  <!-- Left column -->
   <section class="h-full grid overflow-y-auto">
     <textarea bind:value={code} class="h-full p-1 bg-white resize-none"></textarea>
   </section>
-
-  <section class="h-full grid grid-rows-[min-content_1fr] overflow-y-hidden">
-    <div class="flex py-2">
-      <select bind:value={selected} class="px-2 bg-white">
-        {#each parserKeys as key}
-          <option value={key}>{key}</option>
-        {/each}
-      </select>
-      <button class="py-2 px-4 cursor-pointer text-white bg-emerald-500" onclick={addParser}
-        >Add</button
+  <!-- Right column -->
+  <section class="h-full grid gap-y-2 grid-rows-[max-content_minmax(0,_1fr)] overflow-y-hidden">
+    <div class="flex justify-between items-center py-2">
+      <div class="flex">
+        <select bind:value={selected} class="h-full py-2 px-2 bg-white">
+          {#each parserKeys as key}
+            <option value={key}>{key}</option>
+          {/each}
+        </select>
+        <button class="px-4 cursor-pointer text-white bg-emerald-500" onclick={addParser}
+          >Add</button
+        >
+      </div>
+      <a
+        href="https://github.com/leaysgur/js-multi-ast-viewer"
+        target="_blank"
+        class="px-4 text-blue-600 underline">GitHub</a
       >
     </div>
 
@@ -54,12 +62,14 @@ const ast = ({x});
       {#each parsers as { id, key }, idx (id)}
         <li animate:flip={{ duration: 160 }} class="overflow-y-hidden">
           <ParserColumn
-            {id}
-            {key}
             {code}
-            swapLeft={idx === 0 ? null : () => swapParser(idx, idx - 1)}
-            swapRight={idx === parsers.length - 1 ? null : () => swapParser(idx, idx + 1)}
+            {key}
+            swap={[
+              idx === 0 ? null : () => swapParser(idx, idx - 1),
+              idx === parsers.length - 1 ? null : () => swapParser(idx, idx + 1),
+            ]}
             remove={() => removeParser(idx)}
+            {id}
           />
         </li>
       {/each}

@@ -2,19 +2,17 @@
   import { getParserImpl } from "../parsers";
 
   let {
-    id,
-    key,
     code,
-    swapRight,
-    swapLeft,
+    key,
+    swap,
     remove,
+    id,
   }: {
-    id: number;
-    key: string;
     code: string;
-    swapRight: null | (() => void);
-    swapLeft: null | (() => void);
+    key: string;
+    swap: [left: null | (() => void), right: null | (() => void)];
     remove: () => void;
+    id: number;
   } = $props();
 
   // NOTE: Break reactivity to use as default value
@@ -36,11 +34,11 @@
     <h2 class="text-lg font-bold">{key}</h2>
     <div>
       <button
-        {...swapLeft === null ? { disabled: true } : { onclick: swapLeft }}
+        {...swap[0] === null ? { disabled: true } : { onclick: swap[0] }}
         class="py-0 px-1 cursor-pointer">SwapLeft</button
       >
       <button
-        {...swapRight === null ? { disabled: true } : { onclick: swapRight }}
+        {...swap[1] === null ? { disabled: true } : { onclick: swap[1] }}
         class="py-0 px-1 cursor-pointer">SwapRight</button
       >
       <button onclick={remove} class="py-0 px-1 cursor-pointer text-white bg-orange-400"

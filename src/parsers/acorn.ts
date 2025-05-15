@@ -1,7 +1,8 @@
+import pkg from "../../package.json";
 import type { Options, Comment } from "acorn";
 import type { Parse } from "./index";
 
-export const key = "acorn(+jsx)";
+export const key = `acorn(+jsx)@${pkg["dependencies"]["acorn"]}`;
 
 export const notes = `
 - \`acorn-jsx\` plugin is always enabled

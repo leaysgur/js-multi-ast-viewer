@@ -1,11 +1,13 @@
+import pkg from "../../package.json";
 import type { ts } from "@ts-morph/bootstrap";
 import type { ParseSettings } from "@typescript-eslint/typescript-estree/use-at-your-own-risk";
 import type { Parse } from "./index";
 
-export const key = "typescript-estree";
+export const key = `typescript-estree@${pkg["dependencies"]["@typescript-eslint/typescript-estree"]}`;
 
 export const notes = `
 - This is emulating the behavior of \`@typescript-eslint/typescript-estree\`, may not be accurate
+  - Using \`@ts-morph/bootstrap@${pkg["dependencies"]["@ts-morph/bootstrap"]}\` to parse TypeScript code
 - \`errorOnTypeScriptSyntacticAndSemanticIssues\` option only reports whitelisted errors
 - \`errors\` is always empty
 `.trim();
