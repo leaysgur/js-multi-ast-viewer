@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "cp ./node_modules/coi-serviceworker/coi-serviceworker.min.js dist/",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.app.json && tsc -p tsconfig.node.json",
     "format": "npx prettier@latest -w ./src"
