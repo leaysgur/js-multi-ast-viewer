@@ -36,5 +36,5 @@ export const parse: Parse = async (code, options) => {
 
   const program = result;
 
-  return { errors: [], comments, program };
+  return { errors: null, comments, program };
 };

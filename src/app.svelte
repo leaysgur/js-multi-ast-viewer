@@ -36,7 +36,7 @@
   ];
 
   let parsers = $state<Parser[]>([]);
-  let selected = $state(AVAILABLE_PARSERS[0]);
+  let selected = $state(structuredClone(AVAILABLE_PARSERS[0]));
   const addParser = () => parsers.push(structuredClone($state.snapshot(selected)));
   const removeParser = (idx: number) => parsers.splice(idx, 1);
 
@@ -48,7 +48,7 @@ const ast = ({x});
   );
 
   const parse = ({ key, options }: Parser) => {
-    console.count(key)
+    console.count(key);
     if (key === "oxc-parser") return oxcParse(code, options);
     if (key === "acorn") return acornParse(code, options);
     if (key === "typescript-estree") return tsestreeParse(code, options);
@@ -114,10 +114,18 @@ const ast = ({x});
           {#await parse(parsers[idx])}
             <p>...</p>
           {:then { errors, comments, program }}
-            <details open={errors.length !== 0}>
-              <summary>Errors({errors.length})</summary>
-              <pre class="whitespace-pre-wrap text-pink-600">{JSON.stringify(errors, null, 2)}</pre>
-            </details>
+            {#if errors !== null}
+              <details open={errors.length !== 0}>
+                <summary>Errors({errors.length})</summary>
+                <pre class="whitespace-pre-wrap text-pink-600">{JSON.stringify(
+                    errors,
+                    null,
+                    2,
+                  )}</pre>
+              </details>
+            {:else}
+              <p>(Errors are not returned, they are just thrown as exceptions.)</p>
+            {/if}
             <details>
               <summary>Comments({comments.length})</summary>
               <pre class="whitespace-pre-wrap">{JSON.stringify(comments, null, 2)}</pre>
@@ -129,7 +137,10 @@ const ast = ({x});
             </details>
           {:catch error}
             {console.error(error)}
-            <p class="text-red-500">{error}</p>
+            <div>
+              <p class="text-red-500">Parser throws!</p>
+              <pre class="text-red-500">{error}</pre>
+            </div>
           {/await}
         </div>
       {/each}

@@ -3,6 +3,7 @@ import type { ParseSettings } from "@typescript-eslint/typescript-estree/use-at-
 import type { Parse } from "./types";
 
 export const notes = `
+- This is emulating the behavior of \`@typescript-eslint/typescript-estree\`, may not be accurate
 - \`errorOnTypeScriptSyntacticAndSemanticIssues\` option only reports whitelisted errors
 - \`errors\` is always empty
 `.trim();
@@ -56,7 +57,7 @@ export const parse: Parse = async (code, options) => {
   delete result.comments;
   const program = result;
 
-  return { errors: [], program, comments };
+  return { errors: null, program, comments };
 };
 
 // https://github.com/typescript-eslint/typescript-eslint/blob/af077a040cab200c0c5d973e0c4f2cfce75cfa88/packages/typescript-estree/src/semantic-or-syntactic-errors.ts#L21
