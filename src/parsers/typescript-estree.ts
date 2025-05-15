@@ -2,20 +2,22 @@ import type { ts } from "@ts-morph/bootstrap";
 import type { ParseSettings } from "@typescript-eslint/typescript-estree/use-at-your-own-risk";
 import type { Parse } from "./types";
 
+export const key = "typescript-estree";
+
 export const notes = `
 - This is emulating the behavior of \`@typescript-eslint/typescript-estree\`, may not be accurate
 - \`errorOnTypeScriptSyntacticAndSemanticIssues\` option only reports whitelisted errors
 - \`errors\` is always empty
 `.trim();
 
-export const defaultOptions: Partial<ParseSettings> = {
+export const defaultOptions: () => Partial<ParseSettings> = () => ({
   jsx: true,
   allowInvalidAST: false,
   errorOnUnknownASTType: true,
   errorOnTypeScriptSyntacticAndSemanticIssues: true,
   loc: false,
   range: false,
-};
+});
 
 export const parse: Parse = async (code, options) => {
   const parseOptions = JSON.parse(options) as ParseSettings;

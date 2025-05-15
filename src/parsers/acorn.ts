@@ -1,13 +1,15 @@
 import type { Options, Comment } from "acorn";
 import type { Parse } from "./types";
 
+export const key = "acorn(+jsx)";
+
 export const notes = `
 - \`acorn-jsx\` plugin is always enabled
 - Acorn does not support TypeScript, and we do not add plugin for it
 - \`errors\` is always empty
 `.trim();
 
-export const defaultOptions: Partial<Options> = {
+export const defaultOptions: () => Partial<Options> = () => ({
   sourceType: "module",
   ecmaVersion: "latest",
   allowReserved: false,
@@ -17,7 +19,7 @@ export const defaultOptions: Partial<Options> = {
   preserveParens: false,
   locations: false,
   ranges: false,
-};
+});
 
 export const parse: Parse = async (code, options) => {
   const parseOptions = JSON.parse(options) as Options;
