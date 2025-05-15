@@ -48,7 +48,7 @@
           class="cursor-pointer">[→]</button
         >
       </div>
-      <button onclick={remove} class="py-0 px-2 cursor-pointer text-white bg-orange-400"
+      <button onclick={remove} class="py-0 px-2 cursor-pointer text-white bg-orange-600"
         >Remove</button
       >
     </nav>
@@ -70,7 +70,7 @@
         <pre class="whitespace-pre-wrap text-pink-600">{JSON.stringify(errors, null, 2)}</pre>
       </details>
     {:else}
-      <p>(Errors are not returned, they are just thrown as exceptions.)</p>
+      <p class="text-slate-300">(Errors are not returned, they are just thrown as exceptions.)</p>
     {/if}
     <details>
       <summary>Comments({comments.length})</summary>
@@ -83,9 +83,9 @@
     </details>
   {:catch error}
     {console.error(error)}
-    <div>
-      <p class="text-red-500">Parser throws!</p>
-      <pre class="text-red-500">{error}</pre>
+    <div class="text-red-500">
+      <p>Parser throws!</p>
+      <pre class="whitespace-pre-wrap">{error}</pre>
     </div>
   {/await}
 </div>

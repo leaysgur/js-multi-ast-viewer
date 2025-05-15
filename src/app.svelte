@@ -22,7 +22,7 @@
   // Code string to be parsed
   let code = $state("");
   // Code string as draft, it will update `code` later
-  let codeDraft = $state("");
+  let codeDraft = $state("// Code to compare...");
   let timer: ReturnType<typeof setTimeout> | null = null;
   $effect(() => {
     if (timer) clearTimeout(timer);
@@ -36,32 +36,31 @@
   addParser();
 </script>
 
-<main class="h-full grid gap-x-4 grid-cols-[20%_minmax(0,_1fr)]">
+<main class="h-full grid grid-cols-[20%_minmax(0,_1fr)]">
   <!-- Left column -->
   <section class="h-full grid overflow-y-auto">
     <textarea bind:value={codeDraft} class="h-full p-1 bg-white resize-none"></textarea>
   </section>
   <!-- Right column -->
-  <section class="h-full grid gap-y-2 grid-rows-[max-content_minmax(0,_1fr)] overflow-y-hidden">
-    <div class="flex justify-between items-center py-2">
+  <section class="h-full grid grid-rows-[max-content_minmax(0,_1fr)] overflow-y-hidden">
+    <!-- Header -->
+    <div class="flex justify-between items-center py-2 px-4 bg-slate-950">
       <div class="flex">
         <select bind:value={selectedDraft} class="h-full py-2 px-2 bg-white">
           {#each parserKeys as key}
             <option value={key}>{key}</option>
           {/each}
         </select>
-        <button class="px-4 cursor-pointer text-white bg-emerald-500" onclick={addParser}
+        <button class="px-4 cursor-pointer bg-blue-600" onclick={addParser}
           >Add</button
         >
       </div>
-      <a
-        href="https://github.com/leaysgur/js-multi-ast-viewer"
-        target="_blank"
-        class="px-4 text-blue-600 underline">GitHub</a
-      >
+      <a href="https://github.com/leaysgur/js-multi-ast-viewer" target="_blank">GitHub</a>
     </div>
-
-    <ul class="grid gap-x-2 grid-cols-[repeat(auto-fit,_minmax(0,_1fr))] overflow-y-hidden">
+    <!-- Parser columns -->
+    <ul
+      class="grid gap-x-2 grid-cols-[repeat(auto-fit,_minmax(0,_1fr))] px-4 py-2 overflow-y-hidden"
+    >
       {#each parsers as { id, key }, idx (id)}
         <li animate:flip={{ duration: 160 }} class="overflow-y-hidden">
           <ParserColumn
