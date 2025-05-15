@@ -27,41 +27,32 @@
 </script>
 
 <div
-  popover
-  id={key}
-  class="w-1/2 mx-auto mt-16 p-8 open:grid open:gap-4 backdrop:backdrop-blur-xs"
->
-  <h3 class="text-lg font-bold">Notes about `{key}`</h3>
-  <ul class="list-disc list-inside">
-    {#each notes as note}
-      <li>{note}</li>
-    {/each}
-  </ul>
-</div>
-
-<div
   class="h-full grid gap-2 content-start grid-rows-[max-content_max-content_max-content_max-content_minmax(0,_1fr)] overflow-hidden"
 >
   <!-- 1. Header -->
-  <div class="flex justify-between items-center">
+  <header class="flex justify-between items-center">
     <div class="flex gap-2">
       <h2 class="text-lg font-bold">{key}</h2>
-      <button class="cursor-pointer" popovertarget={key}>(?)</button>
+      <button popovertarget={key} title="Show notes" class="cursor-pointer">(?)</button>
     </div>
-    <div>
-      <button
-        {...swap[0] === null ? { disabled: true } : { onclick: swap[0] }}
-        class="py-0 px-1 cursor-pointer">SwapLeft</button
-      >
-      <button
-        {...swap[1] === null ? { disabled: true } : { onclick: swap[1] }}
-        class="py-0 px-1 cursor-pointer">SwapRight</button
-      >
-      <button onclick={remove} class="py-0 px-1 cursor-pointer text-white bg-orange-400"
+    <nav class="flex gap-2">
+      <div class="flex gap-1">
+        <button
+          title="Swap left"
+          {...swap[0] === null ? { disabled: true } : { onclick: swap[0] }}
+          class="cursor-pointer">[←]</button
+        >
+        <button
+          title="Swap right"
+          {...swap[1] === null ? { disabled: true } : { onclick: swap[1] }}
+          class="cursor-pointer">[→]</button
+        >
+      </div>
+      <button onclick={remove} class="py-0 px-2 cursor-pointer text-white bg-orange-400"
         >Remove</button
       >
-    </div>
-  </div>
+    </nav>
+  </header>
   <!-- 2. Options -->
   <details open>
     <summary>Options</summary>
@@ -98,3 +89,16 @@
     </div>
   {/await}
 </div>
+
+<dialog
+  popover
+  id={key}
+  class="w-1/2 mx-auto mt-16 p-8 open:grid open:gap-4 backdrop:backdrop-blur-xs"
+>
+  <h3 class="text-lg font-bold">Notes about `{key}`</h3>
+  <ul class="list-disc list-inside">
+    {#each notes as note}
+      <li>{note}</li>
+    {/each}
+  </ul>
+</dialog>
