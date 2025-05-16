@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { parserKeys } from "./parsers";
   import ParserColumn from "./components/parser-column.svelte";
@@ -19,10 +20,15 @@
       idx === from ? parsers[to] : idx === to ? parsers[from] : parsers[idx],
     ));
 
+  const DEFAULT_CODE = `
+// Code to compare...
+import { parse } from "my-parser";
+await parse("let a = 1");
+`.trim();
   // Code string to be parsed
-  let code = $state("");
+  let code = $state(DEFAULT_CODE);
   // Code string as draft, it will update `code` later
-  let codeDraft = $state("// Code to compare...");
+  let codeDraft = $state(DEFAULT_CODE);
   let timer: ReturnType<typeof setTimeout> | null = null;
   $effect(() => {
     if (timer) clearTimeout(timer);
@@ -30,10 +36,7 @@
     timer = setTimeout(() => (code = v), 320);
   });
 
-  // DEBUG
-  addParser();
-  selectedDraft = parserKeys[1];
-  addParser();
+  onMount(() => addParser());
 </script>
 
 <main class="h-full grid grid-cols-[20%_minmax(0,_1fr)]">
