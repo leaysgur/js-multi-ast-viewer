@@ -26,32 +26,47 @@
 >
   <!-- 1. Header -->
   <header class="flex justify-between items-center flex-wrap">
-    <div class="flex gap-2">
+    <div class="flex gap-2 items-baseline">
       <h2 class="text-lg font-bold">{key}</h2>
-      <button popovertarget={key} title="Show notes" class="cursor-pointer">(?)</button>
+      <button popovertarget={key} title="Show notes" class="px-1 cursor-pointer bg-zinc-400"
+        >!</button
+      >
     </div>
     <nav class="flex gap-2">
       <div class="flex gap-1">
         <button
-          title="Swap left"
-          {...swap[0] === null ? { disabled: true } : { onclick: swap[0] }}
-          class="cursor-pointer">[←]</button
+          {...swap[0] === null
+            ? {
+                disabled: true,
+                class: "cursor-not-allowed",
+              }
+            : {
+                onclick: swap[0],
+                title: "Swap left",
+                class: "cursor-pointer bg-zinc-400 px-1",
+              }}>←</button
         >
         <button
-          title="Swap right"
-          {...swap[1] === null ? { disabled: true } : { onclick: swap[1] }}
-          class="cursor-pointer">[→]</button
+          {...swap[1] === null
+            ? {
+                disabled: true,
+                class: "cursor-not-allowed",
+              }
+            : {
+                onclick: swap[1],
+                title: "Swap right",
+                class: "cursor-pointer bg-zinc-400 px-1",
+              }}>→</button
         >
       </div>
-      <button onclick={remove} class="py-0 px-2 cursor-pointer text-white bg-orange-600"
-        >Remove</button
-      >
+      <button onclick={remove} class="px-2 cursor-pointer bg-pink-800">Remove</button>
     </nav>
   </header>
   <!-- 2. Options -->
   <details open>
     <summary>Options</summary>
-    <textarea bind:value={options} class="w-full p-1 bg-white resize-none" rows={8}></textarea>
+    <textarea bind:value={options} class="w-full p-1 resize-none" rows={8} spellcheck="false"
+    ></textarea>
   </details>
   <!-- 3. Errors -->
   <!-- 4. Comments -->
@@ -62,10 +77,10 @@
     {#if errors !== null}
       <details open={errors.length !== 0}>
         <summary>Errors({errors.length})</summary>
-        <pre class="whitespace-pre-wrap text-pink-600">{JSON.stringify(errors, null, 2)}</pre>
+        <pre class="whitespace-pre-wrap text-pink-400">{JSON.stringify(errors, null, 2)}</pre>
       </details>
     {:else}
-      <p class="text-slate-300">(Errors are not returned, they are just thrown as exceptions.)</p>
+      <p class="text-zinc-300">(Errors are not returned, they are just thrown as exceptions.)</p>
     {/if}
     <details>
       <summary>Comments({comments.length})</summary>
@@ -78,9 +93,9 @@
     </details>
   {:catch error}
     {console.error(error)}
-    <div class="text-red-500">
+    <div>
       <p>Parser throws!</p>
-      <pre class="whitespace-pre-wrap">{error}</pre>
+      <pre class="whitespace-pre-wrap text-pink-400">{error}</pre>
     </div>
   {/await}
 </div>

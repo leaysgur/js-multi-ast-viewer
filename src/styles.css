@@ -1,15 +1,17 @@
 @import "tailwindcss";
 
-#app {
-  @apply h-screen bg-slate-700 text-white font-mono;
+:is(body, #app) {
+  @apply h-screen bg-zinc-700 text-zinc-100 font-mono;
 }
 
-textarea,
-select,
-input {
-  @apply bg-slate-800 text-white;
+:is(textarea, select, input) {
+  @apply bg-zinc-800 text-zinc-50;
+}
+
+button {
+  @apply text-zinc-50;
 }
 
 a {
-  @apply text-blue-400 underline;
+  @apply text-teal-400 underline;
 }

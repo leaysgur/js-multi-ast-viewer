@@ -39,21 +39,19 @@
 <main class="h-full grid grid-cols-[20%_minmax(0,_1fr)]">
   <!-- Left column -->
   <section class="h-full grid overflow-y-auto">
-    <textarea bind:value={codeDraft} class="h-full p-1 bg-white resize-none"></textarea>
+    <textarea bind:value={codeDraft} class="h-full p-1 resize-none" spellcheck="false"></textarea>
   </section>
   <!-- Right column -->
   <section class="h-full grid grid-rows-[max-content_minmax(0,_1fr)] overflow-y-hidden">
     <!-- Header -->
-    <div class="flex justify-between items-center py-2 px-4 bg-slate-950">
+    <div class="flex justify-between items-center py-2 px-4 bg-zinc-600">
       <div class="flex">
-        <select bind:value={selectedDraft} class="h-full py-2 px-2 bg-white">
+        <select bind:value={selectedDraft} class="h-full py-2 px-2">
           {#each parserKeys as key}
             <option value={key}>{key}</option>
           {/each}
         </select>
-        <button class="px-4 cursor-pointer bg-blue-600" onclick={addParser}
-          >Add</button
-        >
+        <button class="px-4 cursor-pointer bg-teal-800" onclick={addParser}>Add</button>
       </div>
       <a href="https://github.com/leaysgur/js-multi-ast-viewer" target="_blank">GitHub</a>
     </div>

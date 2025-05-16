@@ -5,8 +5,8 @@ import type { Parse } from "./index";
 export const key = `acorn(+jsx)@${pkg["dependencies"]["acorn"]}`;
 
 export const notes = [
-  '`acorn-jsx` plugin is always enabled',
-  'Acorn does not support TypeScript, and we do not add plugin for it',
+  "`acorn-jsx` plugin is always enabled",
+  "Acorn does not support TypeScript, and we do not add plugin for it",
 ];
 
 export const defaultOptions: () => Partial<Options> = () => ({
