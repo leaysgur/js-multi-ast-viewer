@@ -18,69 +18,72 @@
     );
 </script>
 
-<div>{@render view(root)}</div>
+<div class="pl-0">{@render view(root)}</div>
 
 {#snippet view(node: any)}
   {#if isObject(node)}
-    <span>{"{"}</span>
+    {@render token("{")}
     {#each Object.entries(node) as [key, value]}
       <div class="pl-4">
-        {@render nodeKey(key)}<span>:</span>
+        {@render nodeKey(key)}{@render token(":")}
 
         <!-- Special handling for specific keys -->
         {#if key === "type"}
-          {@render typeLeaf(value)}<span>,</span>
+          {@render typeLeaf(value)}{@render token(",")}
         {:else if key === "range" && isRange(value)}
-          <span>[</span>
-          {@render leaf(value[0])}<span>,</span>
+          {@render token("[")}
+          {@render leaf(value[0])}{@render token(",")}
           {@render leaf(value[1])}
-          <span>]</span>
+          {@render token("]")}{@render token(",")}
         {:else if key === "loc" && isLoc(value)}
-          <span>{"{"}</span>
+          {@render token("{")}
           <div class="pl-4">
-            {@render nodeKey("start")}<span>:</span>
-            <span>{"{"}</span>
-            {@render nodeKey("line")}<span>:</span>
-            {@render leaf(value.start.line)}<span>,</span>
-            {@render nodeKey("column")}<span>:</span>
+            {@render nodeKey("start")}{@render token(":")}}
+            {@render token("{")}
+            {@render nodeKey("line")}{@render token(":")}
+            {@render leaf(value.start.line)}{@render token(",")}
+            {@render nodeKey("column")}{@render token(":")}
             {@render leaf(value.start.column)}
-            <span>{"}"}</span><span>,</span>
+            {@render token("}")}{@render token(",")}
           </div>
           <div class="pl-4">
-            {@render nodeKey("end")}<span>:</span>
-            <span>{"{"}</span>
-            {@render nodeKey("line")}<span>:</span>
-            {@render leaf(value.end.line)}<span>,</span>
-            {@render nodeKey("column")}<span>:</span>
+            {@render nodeKey("end")}{@render token(":")}}
+            {@render token("{")}
+            {@render nodeKey("line")}{@render token(":")}
+            {@render leaf(value.end.line)}{@render token(",")}
+            {@render nodeKey("column")}{@render token(":")}
             {@render leaf(value.end.column)}
-            <span>{"}"}</span><span>,</span>
+            {@render token("}")}{@render token(",")}
           </div>
-          <span>{"}"}</span><span>,</span>
+          {@render token("}")}{@render token(",")}
         {:else if Array.isArray(value)}
           {#if value.length === 0}
-            <span>[</span><span>]</span><span>,</span>
+            {@render token("[")}{@render token("]")}{@render token(",")}
           {:else}
             <!-- Handle brackets to NOT break between key and `[` -->
-            <span>[</span>
+            {@render token("[")}
             {#each value as item}
               <div class="pl-4">{@render view(item)}</div>
             {/each}
-            <span>]</span><span>,</span>
+            {@render token("]")}{@render token(",")}
           {/if}
         {:else if isObject(value)}
           {@render view(value)}
         {:else}
-          {@render leaf(value)}<span>,</span>
+          {@render leaf(value)}{@render token(",")}
         {/if}
       </div>
     {/each}
-    <span>{"}"}</span><span>,</span>
+    {@render token("}")}{@render token(",")}
   {:else}
     {console.error("Unreachable: AST root should be Object!", node)}
   {/if}
 {/snippet}
 
-{#snippet nodeKey(v: any)}
+{#snippet token(v: string)}
+  <span>{v}</span>
+{/snippet}
+{#snippet nodeKey(v: string)}
   <span class="text-gray-300">{v}</span>
 {/snippet}
 {#snippet typeLeaf(v: any)}
