@@ -18,9 +18,9 @@
     );
 </script>
 
-<div class="pl-0">{@render view(root)}</div>
+<div class="pl-0">{@render view(root, true)}</div>
 
-{#snippet view(node: any)}
+{#snippet view(node: any, isRoot: boolean = false)}
   {#if isObject(node)}
     {@render token("{")}
     {#each Object.entries(node) as [key, value]}
@@ -38,8 +38,7 @@
         {:else if key === "loc" && isLoc(value)}
           {@render token("{")}
           <div class="pl-4">
-            {@render nodeKey("start")}{@render token(":")}}
-            {@render token("{")}
+            {@render nodeKey("start")}{@render token(":")}} {@render token("{")}
             {@render nodeKey("line")}{@render token(":")}
             {@render leaf(value.start.line)}{@render token(",")}
             {@render nodeKey("column")}{@render token(":")}
@@ -47,8 +46,7 @@
             {@render token("}")}{@render token(",")}
           </div>
           <div class="pl-4">
-            {@render nodeKey("end")}{@render token(":")}}
-            {@render token("{")}
+            {@render nodeKey("end")}{@render token(":")}} {@render token("{")}
             {@render nodeKey("line")}{@render token(":")}
             {@render leaf(value.end.line)}{@render token(",")}
             {@render nodeKey("column")}{@render token(":")}
@@ -60,7 +58,7 @@
           {#if value.length === 0}
             {@render token("[")}{@render token("]")}{@render token(",")}
           {:else}
-            <!-- Handle brackets to NOT break between key and `[` -->
+            <!-- Handle brackets here to NOT break between key and `[` -->
             {@render token("[")}
             {#each value as item}
               <div class="pl-4">{@render view(item)}</div>
@@ -74,7 +72,13 @@
         {/if}
       </div>
     {/each}
-    {@render token("}")}{@render token(",")}
+    {@render token("}")}{@render token(isRoot ? "" : ",")}
+  {:else if Array.isArray(node)}
+    {@render token("[")}
+    {#each node as item}
+      <div class="pl-4">{@render view(item)}</div>
+    {/each}
+    {@render token("]")}
   {:else}
     {console.error("Unreachable: AST root should be Object!", node)}
   {/if}
@@ -86,7 +90,7 @@
 {#snippet nodeKey(v: string)}
   <span class="text-gray-300">{v}</span>
 {/snippet}
-{#snippet typeLeaf(v: any)}
+{#snippet typeLeaf(v: string)}
   <span class="text-yellow-300">"{v}"</span>
 {/snippet}
 {#snippet leaf(v: any)}

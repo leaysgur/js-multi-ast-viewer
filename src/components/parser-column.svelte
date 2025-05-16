@@ -77,15 +77,15 @@
   {:then { errors, comments, program }}
     {#if errors !== null}
       <details open={errors.length !== 0}>
-        <summary>Errors({errors.length})</summary>
-        <pre class="whitespace-pre-wrap text-pink-400">{JSON.stringify(errors, null, 2)}</pre>
+        <summary class="text-pink-400">Errors({errors.length})</summary>
+        <AstView root={errors} />
       </details>
     {:else}
       <p class="text-zinc-300">(Errors are not returned, they are just thrown as exceptions.)</p>
     {/if}
     <details>
       <summary>Comments({comments.length})</summary>
-      <pre class="whitespace-pre-wrap">{JSON.stringify(comments, null, 2)}</pre>
+      <AstView root={comments} />
     </details>
     <details open class="overflow-y-auto">
       <summary>Program</summary>
@@ -94,7 +94,7 @@
   {:catch error}
     {console.error(error)}
     <div>
-      <p>Parser throws!</p>
+      <p>Parser throws...</p>
       <pre class="whitespace-pre-wrap text-pink-400">{error}</pre>
     </div>
   {/await}
