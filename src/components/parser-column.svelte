@@ -77,7 +77,7 @@
   {:then { errors, comments, program }}
     {#if errors !== null}
       <details open={errors.length !== 0}>
-        <summary class="text-pink-400">Errors({errors.length})</summary>
+        <summary>Errors({errors.length})</summary>
         <AstView root={errors} />
       </details>
     {:else}
