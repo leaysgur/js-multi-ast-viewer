@@ -1,19 +1,14 @@
 <script lang="ts">
   import { getParserImpl } from "../parsers";
 
-  let {
-    code,
-    key,
-    swap,
-    remove,
-    id,
-  }: {
+  type Props = {
     code: string;
     key: string;
     swap: [left: null | (() => void), right: null | (() => void)];
     remove: () => void;
     id: number;
-  } = $props();
+  };
+  let { code, key, swap, remove, id }: Props = $props();
 
   // NOTE: Break reactivity to use as default value
   const keySnapshot = $state.snapshot(key);
@@ -30,7 +25,7 @@
   class="h-full grid gap-2 content-start grid-rows-[max-content_max-content_max-content_max-content_minmax(0,_1fr)] overflow-hidden"
 >
   <!-- 1. Header -->
-  <header class="flex justify-between items-center">
+  <header class="flex justify-between items-center flex-wrap">
     <div class="flex gap-2">
       <h2 class="text-lg font-bold">{key}</h2>
       <button popovertarget={key} title="Show notes" class="cursor-pointer">(?)</button>
