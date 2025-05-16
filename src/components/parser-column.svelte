@@ -1,5 +1,6 @@
 <script lang="ts">
   import { getParserImpl } from "../parsers";
+  import AstView from "./ast-view.svelte";
 
   type Props = {
     code: string;
@@ -88,8 +89,7 @@
     </details>
     <details open class="overflow-y-auto">
       <summary>Program</summary>
-      <!-- TODO: View for regex, bigint -->
-      <pre>{JSON.stringify(program, null, 2)}</pre>
+      <AstView root={program} />
     </details>
   {:catch error}
     {console.error(error)}
