@@ -3,6 +3,7 @@
   import { flip } from "svelte/animate";
   import { parserKeys } from "./parsers";
   import ParserColumn from "./components/parser-column.svelte";
+  import type { Attachment } from "svelte/attachments";
 
   // Parsers to compare
   let parsers = $state<{ id: number; key: string }[]>([]);
@@ -36,13 +37,30 @@ await parse("let a = 1");
     timer = setTimeout(() => (code = v), 320);
   });
 
+  let selectionStart = $state(0);
+  const handleSelectionStart: Attachment<HTMLTextAreaElement> = (el) => {
+    let timer = requestAnimationFrame(update);
+
+    return () => timer && cancelAnimationFrame(timer);
+
+    function update() {
+      selectionStart = el.selectionStart;
+      timer = requestAnimationFrame(update);
+    }
+  };
+
   onMount(() => addParser());
 </script>
 
 <main class="h-full grid grid-cols-[20%_minmax(0,_1fr)]">
   <!-- Left column -->
   <section class="h-full grid overflow-y-auto">
-    <textarea bind:value={codeDraft} class="h-full p-1 resize-none" spellcheck="false"></textarea>
+    <textarea
+      bind:value={codeDraft}
+      {@attach handleSelectionStart}
+      class="h-full p-1 resize-none"
+      spellcheck="false"
+    ></textarea>
   </section>
   <!-- Right column -->
   <section class="h-full grid grid-rows-[max-content_minmax(0,_1fr)] overflow-y-hidden">
@@ -66,6 +84,7 @@ await parse("let a = 1");
         <li animate:flip={{ duration: 160 }} class="overflow-y-hidden">
           <ParserColumn
             {code}
+            pos={selectionStart}
             {key}
             swap={[
               idx === 0 ? null : () => swapParser(idx, idx - 1),

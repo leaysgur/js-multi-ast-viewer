@@ -1,6 +1,7 @@
 <script lang="ts">
-  type Props = { root: any };
-  let { root }: Props = $props();
+  type Props = { root: any; pos: number };
+  let { root, pos }: Props = $props();
+  import type { Attachment } from "svelte/attachments";
 
   const isObject = (value: any): value is object =>
     Object.prototype.toString.call(value) === "[object Object]";
@@ -16,9 +17,33 @@
     [value.start.line, value.start.column, value.end.line, value.end.column].every(
       (v) => typeof v === "number",
     );
+
+  // Processes to highlight the node corresponding to the current cursor position
+  // Since the deepest node should be highlighted, this cannot be handled while rendering the tree.
+  const extractPos = (node: any) => {
+    if ("start" in node && "end" in node) return `${node.start}:${node.end}`;
+    if ("range" in node && isRange(node.range)) return `${node.range[0]}:${node.range[1]}`;
+    return "";
+  };
+  const hiClassName = "bg-teal-600";
+  const hi: (pos: number) => Attachment<HTMLElement> = (pos) => (el) => {
+    let mostInner: HTMLElement | null = null;
+    for (const typeNode of el.querySelectorAll("[data-pos]")) {
+      const posAttr = typeNode.getAttribute("data-pos");
+      if (!posAttr) continue;
+
+      typeNode.parentElement!.classList.remove(hiClassName);
+      const [start, end] = posAttr.split(":").map(Number);
+      if (start <= pos && pos <= end) {
+        // `typeNode` is `span`, use parent for better highlight
+        mostInner = typeNode.parentElement;
+      }
+    }
+    if (mostInner) mostInner.classList.add(hiClassName);
+  };
 </script>
 
-<div class="pl-0">{@render view(root, true)}</div>
+<div class="pl-0" {@attach hi(pos)}>{@render view(root, true)}</div>
 
 {#snippet view(node: any, isRoot: boolean = false)}
   {#if isObject(node)}
@@ -29,7 +54,7 @@
 
         <!-- Special handling for specific keys -->
         {#if key === "type"}
-          {@render typeLeaf(value)}{@render token(",")}
+          {@render typeLeaf(value, node)}{@render token(",")}
         {:else if key === "range" && isRange(value)}
           {@render token("[")}
           {@render leaf(value[0])}{@render token(",")}
@@ -90,8 +115,8 @@
 {#snippet nodeKey(v: string)}
   <span class="text-gray-300">{v}</span>
 {/snippet}
-{#snippet typeLeaf(v: string)}
-  <span class="text-yellow-300">"{v}"</span>
+{#snippet typeLeaf(v: string, typeNode: any)}
+  <span class="text-yellow-300" data-pos={extractPos(typeNode)}>"{v}"</span>
 {/snippet}
 {#snippet leaf(v: any)}
   {#if typeof v === "string"}

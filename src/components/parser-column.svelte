@@ -4,12 +4,13 @@
 
   type Props = {
     code: string;
+    pos: number;
     key: string;
     swap: [left: null | (() => void), right: null | (() => void)];
     remove: () => void;
     id: number;
   };
-  let { code, key, swap, remove, id }: Props = $props();
+  let { code, pos, key, swap, remove, id }: Props = $props();
 
   // NOTE: Break reactivity to use as default value
   const keySnapshot = $state.snapshot(key);
@@ -78,18 +79,18 @@
     {#if errors !== null}
       <details open={errors.length !== 0}>
         <summary>Errors({errors.length})</summary>
-        <AstView root={errors} />
+        <AstView root={errors} pos={0} />
       </details>
     {:else}
       <p class="text-zinc-300">(Errors are not returned, they are just thrown as exceptions.)</p>
     {/if}
     <details>
       <summary>Comments({comments.length})</summary>
-      <AstView root={comments} />
+      <AstView root={comments} {pos} />
     </details>
     <details open class="overflow-y-auto">
       <summary>Program</summary>
-      <AstView root={program} />
+      <AstView root={program} {pos} />
     </details>
   {:catch error}
     {console.error(error)}
