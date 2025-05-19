@@ -23,8 +23,13 @@
 
   const DEFAULT_CODE = `
 // Code to compare...
-import { parse } from "my-parser";
-await parse("let a = 1");
+export const parse: Parse = async (code, options) => {
+  const filename = "dummy.ts";
+  const parseOptions = JSON.parse(options) as ParserOptions;
+
+  const { parseSync } = await import("oxc-parser");
+  return parseSync(filename, code, parseOptions);
+};
 `.trim();
   // Code string to be parsed
   let code = $state(DEFAULT_CODE);
