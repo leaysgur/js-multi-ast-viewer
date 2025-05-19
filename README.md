@@ -8,6 +8,7 @@ Currently supports:
 
 - `oxc-parser`
 - `acorn` + `acorn-jsx`
+- `meriyah`
 - `@typescript-eslint/typescript-estree`
   - Supports type-check `errorOnTypeScriptSyntacticAndSemanticIssues` option 💪
 
