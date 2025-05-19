@@ -63,7 +63,8 @@
         {:else if key === "loc" && isLoc(value)}
           {@render token("{")}
           <div class="pl-4">
-            {@render nodeKey("start")}{@render token(":")}} {@render token("{")}
+            {@render nodeKey("start")}{@render token(":")}
+            {@render token("{")}
             {@render nodeKey("line")}{@render token(":")}
             {@render leaf(value.start.line)}{@render token(",")}
             {@render nodeKey("column")}{@render token(":")}
@@ -71,7 +72,8 @@
             {@render token("}")}{@render token(",")}
           </div>
           <div class="pl-4">
-            {@render nodeKey("end")}{@render token(":")}} {@render token("{")}
+            {@render nodeKey("end")}{@render token(":")}
+            {@render token("{")}
             {@render nodeKey("line")}{@render token(":")}
             {@render leaf(value.end.line)}{@render token(",")}
             {@render nodeKey("column")}{@render token(":")}
