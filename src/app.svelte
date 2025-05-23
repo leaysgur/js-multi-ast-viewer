@@ -62,9 +62,9 @@ export const parse: Parse = async (code, options) => {
   <section class="h-full grid overflow-y-auto">
     <textarea
       bind:value={codeDraft}
-      {@attach handleSelectionStart}
       class="h-full p-1 resize-none"
       spellcheck="false"
+      {@attach handleSelectionStart}
     ></textarea>
   </section>
   <!-- Right column -->
