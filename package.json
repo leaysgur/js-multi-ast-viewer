@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@oxc-parser/binding-wasm32-wasi": "0.72.2",
-    "@sveltejs/acorn-typescript": "^1.0.5",
+    "@sveltejs/acorn-typescript": "1.0.5",
     "@ts-morph/bootstrap": "0.27.0",
     "@typescript-eslint/typescript-estree": "8.33.1",
     "acorn": "8.14.1",
