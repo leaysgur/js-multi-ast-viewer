@@ -11,6 +11,9 @@ importers:
       '@oxc-parser/binding-wasm32-wasi':
         specifier: 0.72.2
         version: 0.72.2
+      '@sveltejs/acorn-typescript':
+        specifier: ^1.0.5
+        version: 1.0.5(acorn@8.14.1)
       '@ts-morph/bootstrap':
         specifier: 0.27.0
         version: 0.27.0
@@ -332,7 +335,6 @@ packages:
   '@oxc-parser/binding-wasm32-wasi@0.72.2':
     resolution: {integrity: sha512-ng+OJ+4MOsdJVt2a7VpcornkYFLu9Faos77UXogJg+HM5NnH1L+8rraGvxzJWf8OhYkwlQCIvLuqkncfPap4RA==}
     engines: {node: '>=14.0.0'}
-    cpu: [wasm32]
 
   '@oxc-parser/binding-win32-arm64-msvc@0.72.2':
     resolution: {integrity: sha512-0FSLOzfB7mg1+csZjbo3i5tjLIKGu86vB5ldui5o3QNoxWg+TdRhH0cbxfXZANo3eHTLu5GPtrqaZ0pgB4Pvgw==}

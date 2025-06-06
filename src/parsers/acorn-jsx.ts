@@ -2,16 +2,16 @@ import pkg from "../../package.json";
 import type { Options, Comment } from "acorn";
 import type { Parse } from "./index";
 
-export const key = `acorn(+jsx)@${pkg["dependencies"]["acorn"]}`;
+export const key = `acorn@${pkg["dependencies"]["acorn"]}(+acorn-jsx@${pkg["dependencies"]["acorn-jsx"]})`;
 
 export const notes = [
-  "`acorn-jsx` plugin is always enabled",
-  "Acorn does not support TypeScript, and we do not add plugin for it",
+  "`acorn-jsx` and `@sveltejs/acorn-typescript` with `jsx: true` does not produce the same AST",
 ];
 
 export const defaultOptions: () => Partial<Options> = () => ({
   sourceType: "module",
   ecmaVersion: "latest",
+  jsxPluginOptions: {},
   allowReserved: false,
   allowReturnOutsideFunction: false,
   allowImportExportEverywhere: false,
@@ -22,14 +22,21 @@ export const defaultOptions: () => Partial<Options> = () => ({
 });
 
 export const parse: Parse = async (code, options) => {
-  const parseOptions = JSON.parse(options) as Options;
+  const { jsxPluginOptions, ...parseOptions } = JSON.parse(options) as {
+    jsxPluginOptions: Parameters<typeof jsxPlugin>[0];
+  } & Options;
   const comments: Comment[] = [];
 
   const [{ Parser }, { default: jsxPlugin }] = await Promise.all([
     import("acorn"),
     import("acorn-jsx"),
   ]);
-  const parser = Parser.extend(jsxPlugin());
+  let parser;
+  if (jsxPluginOptions) {
+    parser = Parser.extend(jsxPlugin(jsxPluginOptions));
+  } else {
+    parser = Parser;
+  }
 
   const result = parser.parse(code, {
     ...parseOptions,
