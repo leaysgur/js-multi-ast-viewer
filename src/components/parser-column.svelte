@@ -31,7 +31,7 @@
     <div class="flex gap-2 items-baseline">
       <h2 class="text-lg font-bold">{key}</h2>
       <button popovertarget={key} title="Show notes" class="px-1 cursor-pointer bg-zinc-400"
-        >!</button
+        >?</button
       >
     </div>
     <nav class="flex gap-2">
@@ -104,9 +104,9 @@
 <dialog
   popover
   id={key}
-  class="w-1/2 mx-auto mt-16 p-8 open:grid open:gap-4 backdrop:backdrop-blur-xs"
+  class="w-1/2 mx-auto mt-16 p-8 bg-zinc-300 open:grid open:gap-4 backdrop:backdrop-blur-xs"
 >
-  <h3 class="text-lg font-bold">Notes about `{key}`</h3>
+  <h3 class="text-lg font-bold">`{key}`</h3>
   <ul class="list-disc list-inside">
     {#each notes as note}
       <li>{note}</li>
