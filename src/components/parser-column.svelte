@@ -4,13 +4,14 @@
 
   type Props = {
     code: string;
+    sortKeys: boolean;
     pos: number;
     key: string;
     swap: [left: null | (() => void), right: null | (() => void)];
     remove: () => void;
     id: number;
   };
-  let { code, pos, key, swap, remove, id }: Props = $props();
+  let { code, sortKeys, pos, key, swap, remove, id }: Props = $props();
 
   // NOTE: Break reactivity to use as default value
   const keySnapshot = $state.snapshot(key);
@@ -90,7 +91,7 @@
     </details>
     <details open class="overflow-y-auto">
       <summary>Program</summary>
-      <AstView root={program} {pos} />
+      <AstView root={program} {pos} {sortKeys} />
     </details>
   {:catch error}
     {console.error(error)}

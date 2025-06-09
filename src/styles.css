@@ -5,7 +5,7 @@
 }
 
 :is(textarea, select, input) {
-  @apply bg-zinc-800 text-zinc-50;
+  @apply bg-zinc-800 text-zinc-50 accent-teal-800;
 }
 
 button {

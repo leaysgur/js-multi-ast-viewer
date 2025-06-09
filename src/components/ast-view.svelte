@@ -1,6 +1,6 @@
 <script lang="ts">
-  type Props = { root: any; pos: number };
-  let { root, pos }: Props = $props();
+  type Props = { root: any; pos: number; sortKeys: boolean };
+  let { root, pos, sortKeys }: Props = $props();
   import type { Attachment } from "svelte/attachments";
 
   const isObject = (value: any): value is object =>
@@ -41,6 +41,22 @@
     }
     if (mostInner) mostInner.classList.add(hiClassName);
   };
+
+  // Order of keys in the AST node
+  const keyOrderMap: Record<string, number> = {
+    type: 0,
+    start: 10,
+    end: 11,
+    range: 20,
+    loc: 30,
+  };
+  const nodeKeyComp = (a: string, b: string) => {
+    const aOrder = keyOrderMap[a] ?? 99;
+    const bOrder = keyOrderMap[b] ?? 99;
+
+    if (aOrder !== bOrder) return aOrder - bOrder;
+    return a.localeCompare(b);
+  };
 </script>
 
 <div class="pl-0" {@attach hi(pos)}>{@render view(root, true)}</div>
@@ -48,7 +64,8 @@
 {#snippet view(node: any, isRoot: boolean = false)}
   {#if isObject(node)}
     {@render token("{")}
-    {#each Object.entries(node) as [key, value]}
+    {#each sortKeys ? Object.keys(node).sort(nodeKeyComp) : Object.keys(node) as key}
+      {@const value = (node as any)[key]}
       <div class="pl-4">
         {@render nodeKey(key)}{@render token(":")}
 

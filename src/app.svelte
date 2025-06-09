@@ -54,6 +54,8 @@ export const parse: Parse = async (code, options) => {
     }
   };
 
+  let sortKeys = $state(false);
+
   onMount(() => addParser());
 </script>
 
@@ -79,6 +81,10 @@ export const parse: Parse = async (code, options) => {
         </select>
         <button class="px-4 cursor-pointer bg-teal-800" onclick={addParser}>Add</button>
       </div>
+      <label class="cursor-pointer">
+        <input type="checkbox" bind:checked={sortKeys} />
+        Sort keys
+      </label>
       <a href="https://github.com/leaysgur/js-multi-ast-viewer" target="_blank">GitHub</a>
     </div>
     <!-- Parser columns -->
@@ -89,6 +95,7 @@ export const parse: Parse = async (code, options) => {
         <li animate:flip={{ duration: 160 }} class="overflow-y-hidden">
           <ParserColumn
             {code}
+            {sortKeys}
             pos={selectionStart}
             {key}
             swap={[
