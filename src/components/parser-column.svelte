@@ -80,14 +80,14 @@
     {#if errors !== null}
       <details open={errors.length !== 0}>
         <summary>Errors({errors.length})</summary>
-        <AstView root={errors} pos={0} />
+        <AstView root={errors} pos={0} sortKeys={false} />
       </details>
     {:else}
       <p class="text-zinc-300">(Errors are not returned, they are just thrown as exceptions.)</p>
     {/if}
     <details>
       <summary>Comments({comments.length})</summary>
-      <AstView root={comments} {pos} />
+      <AstView root={comments} {pos} sortKeys={false} />
     </details>
     <details open class="overflow-y-auto">
       <summary>Program</summary>
